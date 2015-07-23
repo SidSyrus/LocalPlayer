@@ -1,0 +1,34 @@
+body{
+	background-color: #222 !important;
+	color: white;
+	overflow-x: hidden;
+}
+.wrapper{
+	display: inline-block;
+}
+div.logo, div.youtube-search{
+	float: left;
+	margin: 1em 1em 1em 1em;
+	height: 50px;
+}
+img.logo-image{width: 50px;height: 50px;margin-left: 40%;}
+input#search-box{
+	background: no-repeat 10px 6px #444;
+    border: 0 none;
+    color: #fff;
+    width: 250px;
+    padding: 6px 15px 6px 10px;
+    border-radius: 20px;
+    text-shadow: 0 2px 2px rgba(0, 0, 0, 0.3);
+    box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
+    transition: all 0.7s ease 0s;
+    margin: 0.7em;
+}
+input#search-box:focus{
+	width: 350px;
+	outline: 0;
+}
+section.main-content{
+	box-shadow: 0px -9px 20px 0px rgba(255,255,255,1);
+}
+
