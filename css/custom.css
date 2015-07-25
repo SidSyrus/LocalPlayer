@@ -1,6 +1,6 @@
 body{
 	background-color: #222 !important;
-	color: white;
+	color: #fff !important;
 	overflow-x: hidden;
 }
 .wrapper{
@@ -30,5 +30,16 @@ input#search-box:focus{
 }
 section.main-content{
 	box-shadow: 0px -9px 20px 0px rgba(255,255,255,1);
+}
+ul.tabs-main > li, ul.tabs-main > li.active{
+	width: 48%;
+	text-align: center;
+}
+ul.tabs-main > li > a, ul.tabs-main > li.active > a{
+	background-color: #222 !important;
+	color: #fff !important;
+}
+ul.tabs-main > li.active > a{
+	border-bottom: 1px solid #fff !important;
 }
 
