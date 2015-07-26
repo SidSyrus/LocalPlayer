@@ -3,6 +3,9 @@ body{
 	color: #fff !important;
 	overflow-x: hidden;
 }
+header.navbar{
+	border-bottom: 1px solid #fff;
+}
 .wrapper{
 	display: inline-block;
 }
