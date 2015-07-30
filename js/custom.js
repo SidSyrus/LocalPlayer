@@ -1,7 +1,6 @@
 'use strict';
 
-(function($){
-	$(window).resize(function() {
-	  console.log("Width - " + $(window).width() + " Height - "+ $(window).height());
-	});
-})(jQuery)
+$(document).ready(function(){
+	var YoutubeKey = "AIzaSyBEZBDf9MFGDBHF1jq1lGC0dpUocPSrdow",
+		searchData={"data":[]};
+});
