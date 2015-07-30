@@ -24,5 +24,8 @@ input#search-box:focus{
 	width: 350px;
 	outline: 0;
 }
-section.main-content{border-top:1px solid #fff}
+section.main-content{border-top:1px solid #fff;}
 div.tabs{border-right:1px solid #fff;}
+ul.search-list{
+    list-style:none;
+}
