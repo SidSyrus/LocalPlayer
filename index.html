@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html data-ng-app="YouTube-local">
 	<head>
 		<title>YouTube Local</title>
 		<link rel="shortcut icon" href="img/icons/favicon.png" type="image/x-icon">
@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/core.min.css">
 		<link rel="stylesheet" type="text/css" href="css/custom.css">
 	</head>
-	<body ng-app"YouTube-local">
+	<body class="ng-scope">
 		<div class="all hidden-xs">
 			<div class="viewport container-fluid">
 				<header id="header" class="navbar navbar-static-top">
@@ -36,11 +36,16 @@
 						</div>
 						<div class="video col-sm-8 col-md-8 col-lg-8">
 							<div class="search-data">
-								<ul class="search-list">
-									<li class="search-block">
-										
-									</li>
-								</ul>
+								<div class="search-list">
+									<div class="search-list-img">
+										<img class="search-list-image" data-ng-src="">
+									</div>
+									<div class="search-list-info">
+								        <p class="search-list-title"></p>
+								        <p class="search-list-author"></p>
+								        <p class="search-list-description"></p>
+								    </div>
+							    </div>
 							</div>
 							<div class="video-content">
 							</div>

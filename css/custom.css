@@ -31,3 +31,25 @@ ul.search-list{
 }
 div.tabs-inner{text-align:center;}
 header.navbar{border-bottom:1px solid #ddd;}
+div.search-list:hover{
+  transform: scale(1.1);  
+  -webkit-transform: scale(1.1);
+}
+div.search-list{
+    display:inline-flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    padding:10px;
+    transition: .3s ease-in-out;
+    -webkit-transition: .3s ease-in-out;
+    cursor: pointer;
+}
+img.search-list-image{width:140px;height:100px;}
+.search-list-info{
+    padding-left:10px;    
+}
+.search-list-info p{
+    margin:0px !important;
+    padding-top:5px;
+}
+p.search-list-author{font-size:10px;}
