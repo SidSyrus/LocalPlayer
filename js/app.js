@@ -6,4 +6,3 @@ app.run(function () {
   var appendScriptTag = document.getElementsByTagName('script')[0];
   appendScriptTag.parentNode.insertBefore(script, appendScriptTag);
 });
-
