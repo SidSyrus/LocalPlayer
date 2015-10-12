@@ -1,5 +1,5 @@
 var app = angular.module('YouTube-local',[]),
-	player = $('iframe#player'),
+	player = $('.video-content'),
   	search = $('.search-data');
 
 app.run(function () {
@@ -94,6 +94,7 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
   }
 
   this.listResults = function (data) {
+    
     results.length = 0;
     for (var i = data.items.length - 1; i >= 0; i--) {
       results.push({
@@ -128,7 +129,6 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
       $scope.youtube = YTService.getYoutube();
       $scope.results = YTService.getResults();
       $scope.playlist = true;
-
     }
 
     $scope.search = function () {
