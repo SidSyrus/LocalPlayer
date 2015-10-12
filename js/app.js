@@ -1,6 +1,4 @@
-var app = angular.module('YouTube-local',[]),
-	player = $('.video-content'),
-  	search = $('.search-data');
+var app = angular.module('YouTube-local',[]);
 
 app.run(function () {
   var script = document.createElement('script');
@@ -94,7 +92,9 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
   }
 
   this.listResults = function (data) {
-    
+    if (youtube.player) {
+        youtube.player.stopVideo();
+      }
     results.length = 0;
     for (var i = data.items.length - 1; i >= 0; i--) {
       results.push({
@@ -128,10 +128,10 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
     function init() {
       $scope.youtube = YTService.getYoutube();
       $scope.results = YTService.getResults();
-      $scope.playlist = true;
     }
 
     $scope.search = function () {
+      $scope.youtube.videoId = null;
       $http.get('https://www.googleapis.com/youtube/v3/search', {
         params: {
           key: 'AIzaSyBEZBDf9MFGDBHF1jq1lGC0dpUocPSrdow',
@@ -151,8 +151,7 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
       });
     }
     $scope.play = function(id, title){    
-    	player.css('display','inline-block'); 	
-    	search.css('display','none');
+    	$scope.results.length = 0;
   		YTService.launchPlayer(id, title);
   	}
 });
