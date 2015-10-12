@@ -10,7 +10,7 @@
 		<link rel="stylesheet" type="text/css" href="css/core.min.css">
 		<link rel="stylesheet" type="text/css" href="css/custom.css">
 	</head>
-	<body class="ng-scope">
+	<body class="ng-scope" data-ng-controller="YTController">
 		<div class="all hidden-xs">
 			<div class="viewport container-fluid">
 				<header id="header" class="navbar navbar-static-top">
@@ -22,8 +22,10 @@
 							</div>
 						</div>
 						<div class="input-group youtube-search col-md-8">
-							<input type="text" id="search-box" placeholder="Search">
-							<span class="input-group-addon glyphicon glyphicon-search" id="searchIcon"></span>
+							<form id="search" data-ng-submit="search()">
+								<input type="text" id="search-box" name="q" placeholder="Search" data-ng-model="query" required>
+								<input type="submit" class="submit" value="Search"/>
+							</form>
 						</div>
 					</div>
 				</header>
@@ -38,14 +40,14 @@
 						</div>
 						<div class="video col-md-8">
 							<div class="search-data">
-								<div class="search-list">
+								<div class="search-list" data-ng-repeat="video in results">
 									<div class="search-list-img">
-										<img class="search-list-image" data-ng-src="">
+										<img class="search-list-image" data-ng-src="{{ video.thumbnail }}">
 									</div>
 									<div class="search-list-info">
-								        <p class="search-list-title"></p>
-								        <p class="search-list-author"></p>
-								        <p class="search-list-description"></p>
+								        <p class="search-list-title">{{ video.title }}</p>
+								        <p class="search-list-author">{{ video.author }}</p>
+								        <p class="search-list-description">{{ video.description }}</p>
 								    </div>
 							    </div>
 							</div>

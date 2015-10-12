@@ -19,11 +19,18 @@
     box-shadow: 0 1px 0 rgba(255, 255, 255, 0.1), 0 1px 3px rgba(0, 0, 0, 0.2) inset;
     margin: 0.7em;
 }
-#search-box:focus{
+#search-box:focus, .submit:focus{
 	outline: 0;
 }
-#searchIcon{
+.submit{
     cursor: pointer;
+    background:none;
+    border: 0px solid;
+    padding: 6px 15px 6px 10px;
+    text-align:center;
+}
+.submit:hover{
+    
 }
 .tabs-inner{text-align:center;}
 .navbar{border-bottom:1px solid #ddd;}
