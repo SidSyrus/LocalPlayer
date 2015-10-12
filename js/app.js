@@ -1,4 +1,6 @@
-var app = angular.module('YouTube-local',[]);
+var app = angular.module('YouTube-local',[]),
+	player = $('iframe#player'),
+  	search = $('.search-data');
 
 app.run(function () {
   var script = document.createElement('script');
@@ -31,16 +33,13 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
   $window.onYouTubeIframeAPIReady = function () {
     $log.info('Youtube API is ready');
     youtube.ready = true;
-    service.bindPlayer('placeholder');
+    service.bindPlayer('player');
     service.loadPlayer();
     $rootScope.$apply();
   };
 
   function onYoutubeReady (event) {
     $log.info('YouTube Player is ready');
-    youtube.player.cueVideoById(history[0].id);
-    youtube.videoId = history[0].id;
-    youtube.videoTitle = history[0].title;
   }
 
   function onYoutubeStateChange (event) {
@@ -129,6 +128,7 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
       $scope.youtube = YTService.getYoutube();
       $scope.results = YTService.getResults();
       $scope.playlist = true;
+
     }
 
     $scope.search = function () {
@@ -150,4 +150,9 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
         $log.info('Search error');
       });
     }
+    $scope.play = function(id, title){    
+    	player.css('display','inline-block'); 	
+    	search.css('display','none');
+  		YTService.launchPlayer(id, title);
+  	}
 });

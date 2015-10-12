@@ -22,10 +22,8 @@
 							</div>
 						</div>
 						<div class="input-group youtube-search col-md-8">
-							<form id="search" data-ng-submit="search()">
 								<input type="text" id="search-box" name="q" placeholder="Search" data-ng-model="query" required>
-								<input type="submit" class="submit" value="Search"/>
-							</form>
+								<input type="submit" class="submit" value="Search" data-ng-click="search()"/>
 						</div>
 					</div>
 				</header>
@@ -38,9 +36,9 @@
 							<div class="tabs-inner">
 							</div>
 						</div>
-						<div class="video col-md-8">
+						<div class="col-md-8" id="video">
 							<div class="search-data">
-								<div class="search-list" data-ng-repeat="video in results">
+								<div class="search-list" data-ng-repeat="video in results" data-ng-click="play(video.id, video.title)">
 									<div class="search-list-img">
 										<img class="search-list-image" data-ng-src="{{ video.thumbnail }}">
 									</div>
@@ -51,7 +49,7 @@
 								    </div>
 							    </div>
 							</div>
-							<div class="video-content">
+							<div class="video-content" id="player">
 							</div>
 						</div>
 						<!--div class="tabs col-md-2">
