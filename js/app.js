@@ -3,12 +3,8 @@ var app = angular.module('YouTube-local',[]);
 app.run(function () {
   var script = document.createElement('script');
   script.src = "https://www.youtube.com/iframe_api";
-  var appendScriptTag = document.getElementsByTagName('script')[0];
-  appendScriptTag.parentNode.insertBefore(script, appendScriptTag);
-});
-
-app.config( function ($httpProvider) {
-  delete $httpProvider.defaults.headers.common['X-Requested-With'];
+  var scriptTag = document.getElementsByTagName('script')[0];
+  scriptTag.parentNode.insertBefore(script, scriptTag);
 });
 
 
@@ -16,87 +12,57 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
 
   var service = this;
 
-  var youtube = {
+  var YTPlayer = {
     ready: false,
     player: null,
     playerId: null,
     videoId: null,
     videoTitle: null,
     playerHeight: '480',
-    playerWidth: '640',
-    state: 'stopped'
+    playerWidth: '640'
   };
   var results = [];
 
   $window.onYouTubeIframeAPIReady = function () {
-    $log.info('Youtube API is ready');
-    youtube.ready = true;
-    service.bindPlayer('player');
-    service.loadPlayer();
+    YTPlayer.ready = true;
+    YTPlayer.playerId = 'player';
+    service.setPlayer();
     $rootScope.$apply();
   };
 
-  function onYoutubeReady (event) {
-    $log.info('YouTube Player is ready');
-  }
-
-  function onYoutubeStateChange (event) {
-    if (event.data == YT.PlayerState.PLAYING) {
-      youtube.state = 'playing';
-    } else if (event.data == YT.PlayerState.PAUSED) {
-      youtube.state = 'paused';
-    } else if (event.data == YT.PlayerState.ENDED) {
-      youtube.state = 'ended';
-      service.launchPlayer(upcoming[0].id, upcoming[0].title);
-      service.archiveVideo(upcoming[0].id, upcoming[0].title);
-      service.deleteVideo(upcoming, upcoming[0].id);
+  this.setPlayer = function () {
+    if (YTPlayer.ready && YTPlayer.playerId) {
+      if (YTPlayer.player) {
+        YTPlayer.player.destroy();
+      }
+      YTPlayer.player = service.createPlayer();
     }
-    $rootScope.$apply();
-  }
-
-  this.bindPlayer = function (elementId) {
-    $log.info('Binding to ' + elementId);
-    youtube.playerId = elementId;
   };
 
   this.createPlayer = function () {
-    $log.info('Creating a new Youtube player for DOM id ' + youtube.playerId + ' and video ' + youtube.videoId);
-    return new YT.Player(youtube.playerId, {
-      height: youtube.playerHeight,
-      width: youtube.playerWidth,
+    return new YT.Player(YTPlayer.playerId, {
+      height: YTPlayer.playerHeight,
+      width: YTPlayer.playerWidth,
       playerVars: {
         rel: 0,
         showinfo: 0
-      },
-      events: {
-        'onReady': onYoutubeReady,
-        'onStateChange': onYoutubeStateChange
       }
     });
   };
 
-  this.loadPlayer = function () {
-    if (youtube.ready && youtube.playerId) {
-      if (youtube.player) {
-        youtube.player.destroy();
-      }
-      youtube.player = service.createPlayer();
-    }
-  };
-
   this.launchPlayer = function (id, title) {
-    youtube.player.loadVideoById(id);
-    youtube.videoId = id;
-    youtube.videoTitle = title;
-    return youtube;
+    YTPlayer.player.loadVideoById(id);
+    YTPlayer.videoId = id;
+    YTPlayer.videoTitle = title;
+    return YTPlayer;
   }
 
   this.listResults = function (data) {
-    if (youtube.player) {
-        youtube.player.stopVideo();
+    if (YTPlayer.player) {
+        YTPlayer.player.stopVideo();
       }
     results.length = 0;
-    for (var i = data.items.length - 1; i >= 0; i--) {
+    for (var i=0; i <= data.items.length - 1; i++) {
       results.push({
         id: data.items[i].id.videoId,
         title: data.items[i].snippet.title,
@@ -108,8 +74,8 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
     return results;
   }
 
-  this.getYoutube = function () {
-    return youtube;
+  this.getPlayer = function () {
+    return YTPlayer;
   };
 
   this.getResults = function () {
@@ -119,16 +85,9 @@ app.service('YTService', ['$window', '$rootScope', '$log', function ($window, $r
 
 }]);
 
-// Controller
+app.controller('YTController', [ '$scope', '$http', '$log', 'YTService', function ($scope, $http, $log, YTService) {
 
-app.controller('YTController', function ($scope, $http, $log, YTService) {
-
-    init();
-
-    function init() {
-      $scope.youtube = YTService.getYoutube();
-      $scope.results = YTService.getResults();
-    }
+    initialize();
 
     $scope.search = function () {
       $scope.youtube.videoId = null;
@@ -136,7 +95,7 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
         params: {
           key: 'AIzaSyBEZBDf9MFGDBHF1jq1lGC0dpUocPSrdow',
           type: 'video',
-          maxResults: '8',
+          maxResults: '10',
           part: 'id,snippet',
           fields: 'items/id,items/snippet/title,items/snippet/description,items/snippet/thumbnails/default,items/snippet/channelTitle',
           q: this.query
@@ -144,14 +103,19 @@ app.controller('YTController', function ($scope, $http, $log, YTService) {
       })
       .success( function (data) {
         YTService.listResults(data);
-        $log.info(data);
       })
-      .error( function () {
-        $log.info('Search error');
+      .error( function (error) {
+        $log.info('Something went wrong. Error message : ' + error.error.message + ' | Error reason : ' + error.error.errors[0].reason);
       });
     }
+
     $scope.play = function(id, title){    
     	$scope.results.length = 0;
   		YTService.launchPlayer(id, title);
   	}
-});
+
+    function initialize() {
+      $scope.youtube = YTService.getPlayer();
+      $scope.results = YTService.getResults();
+    }
+}]);
